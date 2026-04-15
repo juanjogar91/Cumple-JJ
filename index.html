@@ -2,12 +2,16 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="La noche de los 35 — Juanjo">
-<meta property="og:description" content="22 de mayo · 21hs · Barbacoa · Total Black">
+<meta property="og:title" content="La noche de los 35 — Juanjo 🎉">
+<meta property="og:description" content="22 de mayo · 21hs · Barbacoa · Total Black · Confirmá tu asistencia">
 <meta property="og:image" content="https://cumple-jj.vercel.app/og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="https://cumple-jj.vercel.app/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="La noche de los 35 — Juanjo 🎉">
+<meta name="twitter:description" content="22 de mayo · 21hs · Barbacoa · Total Black">
 <meta name="twitter:image" content="https://cumple-jj.vercel.app/og_image.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Juanjo 35</title>
@@ -75,12 +79,11 @@
   .code-note{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.15);letter-spacing:0.1em;margin-top:6px;}
   .confirm-cta{width:100%;background:transparent;border:1px solid rgba(255,100,0,0.35);padding:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,100,0,0.8);letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-top:4px;position:relative;overflow:hidden;}
   .confirm-cta::before{content:'';position:absolute;top:0;left:0;width:25%;height:1.5px;background:linear-gradient(to right,#ff6400,transparent);}
+  .confirm-cta:disabled{opacity:0.5;cursor:not-allowed;}
   .already-confirmed{border:1px solid rgba(0,255,120,0.2);background:rgba(0,255,120,0.04);padding:12px 14px;margin-top:4px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,120,0.6);letter-spacing:0.15em;text-align:center;line-height:1.8;}
   .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
   .footer-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;}
   .una-noche{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,100,0,0.4);letter-spacing:0.15em;text-transform:uppercase;}
-
-  /* GENDER SCREEN */
   #screenGender{justify-content:center;align-items:center;padding:40px 32px;}
   .gender-pretag{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,100,0,0.6);letter-spacing:0.25em;text-transform:uppercase;text-align:center;margin-bottom:4px;}
   .gender-event{font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(255,255,255,0.8);letter-spacing:4px;text-align:center;margin-bottom:28px;}
@@ -91,9 +94,8 @@
   .gender-btn{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,0.1);padding:14px 24px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;width:100%;max-width:280px;}
   .gender-btn:active{border-color:rgba(255,100,0,0.6);background:rgba(255,100,0,0.07);}
   .gbtn-dot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(255,100,0,0.4);flex-shrink:0;}
-
-  /* FORM SCREEN */
-  #screenForm .inner{padding:28px 28px 40px;overflow-y:auto;}
+  #screenForm{overflow-y:auto;}
+  #screenForm .inner{padding:28px 28px 40px;}
   .form-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
   .back-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.08);padding:5px 10px;cursor:pointer;flex-shrink:0;}
   .form-screen-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:3px;}
@@ -109,10 +111,9 @@
   .radio-opt input:checked+.radio-pill{border-color:rgba(255,100,0,0.6);color:#ff6400;background:rgba(255,100,0,0.07);}
   .acomp-extra{display:none;margin-top:8px;}
   .acomp-extra.visible{display:block;}
-  .submit-btn{width:100%;background:#ff6400;border:none;padding:15px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#000;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;cursor:pointer;margin-top:8px;}
-  .submit-btn:active{opacity:0.85;}
-
-  /* SUCCESS SCREEN */
+  .submit-btn{width:100%;background:#ff6400;border:none;padding:15px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#000;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity 0.2s;}
+  .submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .submit-btn.loading{opacity:0.7;}
   #screenSuccess{justify-content:center;align-items:center;padding:40px 32px;text-align:center;}
   .conf-emoji{font-size:40px;margin-bottom:14px;}
   .conf-title{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#ff6400;letter-spacing:4px;margin-bottom:6px;}
@@ -122,8 +123,9 @@
   .conf-block-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.5);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;}
   .conf-block-val{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3;}
   .conf-back{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.08);padding:10px 20px;cursor:pointer;margin-top:10px;}
-
-  /* ADMIN */
+  .cal-btn{width:100%;background:transparent;border:1px solid rgba(255,255,255,0.12);padding:13px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .cal-btn:active{border-color:rgba(255,255,255,0.3);color:#fff;}
+  #screenAdmin{overflow-y:auto;}
   #screenAdmin .inner{padding:24px 20px 40px;}
   .admin-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#ff6400;letter-spacing:4px;margin-bottom:2px;}
   .admin-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;margin-bottom:18px;}
@@ -140,29 +142,18 @@
   .badge-no{background:rgba(255,60,60,0.07);border:1px solid rgba(255,60,60,0.18);color:rgba(255,80,80,0.6);}
   .badge-maybe{background:rgba(255,200,0,0.07);border:1px solid rgba(255,200,0,0.18);color:rgba(255,200,0,0.6);}
   .clear-btn{width:100%;background:transparent;border:1px solid rgba(255,60,60,0.18);padding:10px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,60,60,0.4);letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;margin-top:14px;}
-
-  .cal-btn{width:100%;background:transparent;border:1px solid rgba(255,255,255,0.12);padding:13px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;}
-  .cal-btn:active{border-color:rgba(255,255,255,0.3);color:#fff;}
-  .cal-icon{font-size:14px;}
   .no-guests{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;text-align:center;padding:28px 0;}
 </style>
 </head>
 <body>
-
-<!-- SCREEN 1: GENDER -->
-<!-- Netlify Forms detection -->
+<!-- Netlify detection form -->
 <form name="confirmacion" data-netlify="true" netlify netlify-honeypot="bot-field" action="/" method="POST" hidden>
-  <input type="text" name="nombre">
-  <input type="text" name="acompanado">
-  <input type="text" name="acomp_nombre">
-  <input type="text" name="comida">
-  <input type="text" name="bebida">
-  <input type="text" name="alergia">
-  <input type="text" name="boliche">
-  <input type="text" name="accesorio">
-  <input type="text" name="mision">
+  <input type="text" name="nombre"><input type="text" name="acompanado"><input type="text" name="comida">
+  <input type="text" name="bebida"><input type="text" name="alergia"><input type="text" name="boliche">
+  <input type="text" name="accesorio"><input type="text" name="mision">
 </form>
 
+<!-- SCREEN 1: GENDER -->
 <div class="screen active" id="screenGender">
   <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
   <div class="gender-pretag">// cumpleaños de juanjo · 22.05.2026</div>
@@ -244,7 +235,7 @@
       </div>
       <div id="alreadyConfirmed" class="already-confirmed" style="display:none;">
         ✓ &nbsp;ya confirmaste tu asistencia<br>
-        <span style="color:rgba(255,255,255,0.2);font-size:8px;">te esperamos el 22 · 21:00 hs</span>
+        <span style="color:rgba(255,255,255,0.2);font-size:8px;">te espero el 22 · 21:00 hs</span>
       </div>
     </div>
     <div class="footer-row">
@@ -255,7 +246,7 @@
 </div>
 
 <!-- SCREEN 3: FORM -->
-<div class="screen" id="screenForm" style="overflow-y:auto;">
+<div class="screen" id="screenForm">
   <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
   <div class="inner">
     <div class="form-header">
@@ -308,7 +299,7 @@
         <label class="radio-opt"><input type="radio" name="boliche" value="Puede ser"><span class="radio-pill">Puede ser</span></label>
       </div>
     </div>
-    <button class="submit-btn" onclick="confirmar()">✦ &nbsp;Confirmar</button>
+    <button class="submit-btn" id="submitBtn" onclick="confirmar()">✦ &nbsp;Confirmar</button>
   </div>
 </div>
 
@@ -317,12 +308,7 @@
   <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
   <div class="conf-emoji">🎉</div>
   <div class="conf-title">¡LISTO!</div>
-  <div class="conf-line" id="confLine">
-    Te espero el viernes 22 de mayo<br>
-    26 de Marzo 3459 — Piso 11<br>
-    Barbacoa · Montevideo<br>
-    21:00 hs · Total Black
-  </div>
+  <div class="conf-line">Te espero el viernes 22 de mayo<br>26 de Marzo 3459 — Piso 11<br>Barbacoa · Montevideo<br>21:00 hs · Total Black</div>
   <div class="conf-block">
     <div class="conf-block-lbl">// tu diferencial esta noche</div>
     <div class="conf-block-val" id="confAccVal"></div>
@@ -331,38 +317,73 @@
     <div class="conf-block-lbl" style="color:rgba(255,100,0,0.5);">// tu misión con juanjo</div>
     <div class="conf-block-val" id="confMisVal"></div>
   </div>
-  <button class="cal-btn" id="calBtn" onclick="addToCalendar()"><span class="cal-icon">📅</span> Agregar a Google Calendar</button>
+  <button class="cal-btn" onclick="addToCalendar()"><span>📅</span> Agregar a Google Calendar</button>
   <button class="conf-back" onclick="goTo('screenFlyer')">← volver al flyer</button>
 </div>
 
 <!-- SCREEN 5: ADMIN -->
-<div class="screen" id="screenAdmin" style="overflow-y:auto;">
+<div class="screen" id="screenAdmin">
   <div class="glow-orange"></div><div class="side-line"></div>
   <div class="inner" id="adminContent"></div>
 </div>
 
 <script>
 var pools={
-  u:[{e:'🕶️',l:'Lentes de sol — de noche, sin excusas'},{e:'🧣',l:'Pañuelo en el cuello'},{e:'⛓️',l:'Cadena o collar llamativo'},{e:'🎭',l:'Antifaz'},{e:'🧤',l:'Guantes negros'},{e:'🪖',l:'Boina'},{e:'💋',l:'Lunar postizo exagerado'},{e:'🌈',l:'Peluca de color'},{e:'🩱',l:'Algo de cuero o símil cuero'},{e:'👟',l:'Zapatillas blancas — el único blanco permitido'},{e:'🌹',l:'Una rosa (como Leo Mattioli)'},{e:'📿',l:'Cadena larga visible'},{e:'🌙',l:'Accesorio con luna o estrella'}],
-  m:[{e:'🎩',l:'Sombrero de ala ancha'},{e:'🧢',l:'Gorra negra hacia atrás'},{e:'💍',l:'Un accesorio dorado visible'},{e:'🪩',l:'Algo con brillo o lentejuelas'},{e:'💈',l:'Gel — pelo peinado para atrás'},{e:'👔',l:'Corbata negra sobre lo que sea'}],
-  f:[{e:'💅',l:'Uñas de color'},{e:'💎',l:'Piedras decorativas en la cara'},{e:'🌟',l:'Iluminador en pómulos exagerado'},{e:'🖤',l:'Peluca negra larga'},{e:'👑',l:'Tiara o corona discreta'},{e:'🧦',l:'Medias de red'},{e:'✨',l:'Glitter en la cara'},{e:'🥾',l:'Botas altas'}]
+  u:[
+    {e:'🕶️',l:'Lentes de sol — de noche, sin excusas'},
+    {e:'🧣',l:'Pañuelo en el cuello'},
+    {e:'⛓️',l:'Cadena o collar llamativo'},
+    {e:'🎭',l:'Antifaz'},
+    {e:'🧤',l:'Guantes negros'},
+    {e:'🪖',l:'Boina'},
+    {e:'💋',l:'Lunar postizo exagerado'},
+    {e:'🌈',l:'Peluca de color'},
+    {e:'🩱',l:'Algo de cuero o símil cuero'},
+    {e:'👟',l:'Zapatillas blancas — el único blanco permitido'},
+    {e:'🌹',l:'Una rosa (como Leo Mattioli)'},
+    {e:'📿',l:'Cadena larga visible'}
+  ],
+  m:[
+    {e:'🎩',l:'Sombrero de ala ancha'},
+    {e:'🧢',l:'Gorra negra hacia atrás'},
+    {e:'🪩',l:'Algo con brillo o lentejuelas'},
+    {e:'💈',l:'Gel — pelo peinado para atrás'},
+    {e:'👔',l:'Corbata negra sobre lo que sea'}
+  ],
+  f:[
+    {e:'💎',l:'Piedras decorativas en la cara'},
+    {e:'🖤',l:'Peluca larga'},
+    {e:'👑',l:'Tiara o corona discreta'},
+    {e:'🧦',l:'Medias de red'},
+    {e:'✨',l:'Glitter en la cara'},
+    {e:'🥾',l:'Botas altas'},
+    {e:'👗',l:'Top de cuero'}
+  ]
 };
-var mis=[{e:'🥂',l:'Hacer un brindis uno a uno con Juanjo'},{e:'🕺',l:'Sacarle a bailar al menos una canción'},{e:'🤗',l:'Darle el abrazo más largo de la noche'},{e:'🎤',l:'Dedicarle una canción en voz alta frente a todos'},{e:'🤫',l:'Hacerle una broma o sorpresa durante la noche'},{e:'👀',l:'Capturar el mejor momento de la noche en video'},{e:'🎯',l:'Adivinar cuál es su canción favorita de la noche'},{e:'🤙',l:'Hacer una promesa para el próximo año juntos'},{e:'🎰',l:'Apostar algo ridículo con él durante la noche'},{e:'🍻',l:'Tomarse un shot juntos'},{e:'🍻',l:'Tomarse 2 shots juntos'},{e:'🍻',l:'Tomarse 3 shots juntos'},{e:'📞',l:'Llamar a alguien que no pudo venir y ponerlo en altavoz con Juanjo'},{e:'🌙',l:'Ser el que le avisa cuando es hora de irse al boliche'},{e:'🎶',l:'Pedirle al DJ una canción dedicada a él sin que lo sepa'}];
+var mis=[
+  {e:'🥂',l:'Hacer un brindis uno a uno con Juanjo'},
+  {e:'🕺',l:'Sacarle a bailar al menos una canción'},
+  {e:'🤗',l:'Darle el abrazo más largo de la noche'},
+  {e:'🎤',l:'Dedicarle una canción en voz alta frente a todos'},
+  {e:'🤫',l:'Hacerle una broma o sorpresa durante la noche'},
+  {e:'👀',l:'Capturar el mejor momento de la noche en video'},
+  {e:'🎯',l:'Adivinar cuál es su canción favorita de la noche'},
+  {e:'🤙',l:'Hacer una promesa para el próximo año juntos'},
+  {e:'🎰',l:'Apostar algo ridículo con él durante la noche'},
+  {e:'🍻',l:'Tomarse un shot juntos'},
+  {e:'🍻',l:'Tomarse 2 shots juntos'},
+  {e:'🍻',l:'Tomarse 3 shots juntos'},
+  {e:'📞',l:'Llamar a alguien que no pudo venir y ponerlo en altavoz con Juanjo'},
+  {e:'🌙',l:'Ser el que le avisa cuando es hora de irse al boliche'},
+  {e:'🎶',l:'Pedirle al DJ una canción dedicada a él sin que lo sepa'},
+  {e:'🍻',l:'Tomarse uno o dos shots juntos'}
+];
 
-var curAcc=null, curMis=null;
+var curAcc=null,curMis=null;
 function rand(a){return a[Math.floor(Math.random()*a.length)];}
 
-// Device fingerprint — combina user agent + screen + timezone para ID estable
-function getDeviceId(){
-  var raw=[navigator.userAgent,screen.width,screen.height,screen.colorDepth,Intl.DateTimeFormat().resolvedOptions().timeZone,navigator.language].join('|');
-  var h=0;
-  for(var i=0;i<raw.length;i++){h=Math.imul(31,h)+raw.charCodeAt(i)|0;}
-  return 'dev_'+(h>>>0).toString(16);
-}
-var DEVICE_ID=getDeviceId();
-
-function lsGet(key){try{var v=localStorage.getItem(key);return v?JSON.parse(v):null;}catch(e){return null;}}
-function lsSet(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+function lsGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
 function goTo(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
@@ -370,15 +391,10 @@ function goTo(id){
   window.scrollTo(0,0);
 }
 
-function toggleAcomp(show){
-  document.getElementById('acompExtra').classList.toggle('visible',show);
-  if(!show)document.getElementById('fAcompNombre').value='';
-}
-
 function init(){
   var saved=lsGet('juanjo35_device');
-  if(saved && saved.acc && saved.mis){
-    curAcc=saved.acc; curMis=saved.mis;
+  if(saved&&saved.acc&&saved.mis){
+    curAcc=saved.acc;curMis=saved.mis;
     document.getElementById('aE').textContent=curAcc.e;
     document.getElementById('aT').textContent=curAcc.l;
     document.getElementById('mE').textContent=curMis.e;
@@ -387,21 +403,25 @@ function init(){
       document.getElementById('confirmCTA').style.display='none';
       document.getElementById('alreadyConfirmed').style.display='block';
     }
-    goTo('screenFlyer');
-    return;
+    goTo('screenFlyer');return;
   }
   goTo('screenGender');
 }
 
 function elegir(g){
   var pa=pools.u.concat(g==='x'?[]:(pools[g]||[]));
-  curAcc=rand(pa); curMis=rand(mis);
+  curAcc=rand(pa);curMis=rand(mis);
   document.getElementById('aE').textContent=curAcc.e;
   document.getElementById('aT').textContent=curAcc.l;
   document.getElementById('mE').textContent=curMis.e;
   document.getElementById('mT').textContent=curMis.l;
   lsSet('juanjo35_device',{acc:curAcc,mis:curMis,confirmed:false});
   goTo('screenFlyer');
+}
+
+function toggleAcomp(show){
+  document.getElementById('acompExtra').classList.toggle('visible',show);
+  if(!show)document.getElementById('fAcompNombre').value='';
 }
 
 var rev=false;
@@ -416,7 +436,9 @@ function getVal(name){
   return el?el.value:'—';
 }
 
+var enviando=false;
 async function confirmar(){
+  if(enviando)return;
   var nombre=document.getElementById('fNombre').value.trim();
   if(!nombre){document.getElementById('fNombre').focus();return;}
   var acomp=getVal('acomp');
@@ -434,7 +456,12 @@ async function confirmar(){
     ts:new Date().toLocaleString('es-UY',{timeZone:'America/Montevideo'})
   };
 
-  // Enviar a Google Sheets via Apps Script
+  // Bloquear botón y mostrar estado de carga
+  enviando=true;
+  var btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='// enviando...';
+
   try{
     await fetch('https://script.google.com/macros/s/AKfycbwVc-1LHyzDlKG7DVAdURFhCRrKI9bTC1RrGW2F5VP-Kh9C9h_8lfVMLxDdxMhaFSXr/exec',{
       method:'POST',
@@ -442,85 +469,44 @@ async function confirmar(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(entry)
     });
-  }catch(e){ console.log('Sheets error:',e); }
+  }catch(e){console.log('Sheets error:',e);}
 
-  // Guardar estado del dispositivo localmente
   lsSet('juanjo35_device',{acc:curAcc,mis:curMis,confirmed:true});
-
-  // Actualizar UI
   document.getElementById('confirmCTA').style.display='none';
   document.getElementById('alreadyConfirmed').style.display='block';
   if(curAcc)document.getElementById('confAccVal').textContent=curAcc.e+' '+curAcc.l;
   if(curMis)document.getElementById('confMisVal').textContent=curMis.e+' '+curMis.l;
+  enviando=false;
   goTo('screenSuccess');
 }
 
-
 function addToCalendar(){
-  var acc = curAcc ? curAcc.e+' '+curAcc.l : 'Sin asignar';
-  var mis = curMis ? curMis.e+' '+curMis.l : 'Sin asignar';
-  var details = 'Dress code: Total Black | Tu diferencial: '+acc+' | Tu mision: '+mis;
-  var start = '20260522T210000';
-  var end   = '20260523T020000';
-  var title = encodeURIComponent('La noche de los 35 - Juanjo');
-  var loc   = encodeURIComponent('26 de Marzo 3459 Piso 11 Barbacoa Montevideo');
-  var det   = encodeURIComponent(details);
-  var url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-    +'&text='+title
-    +'&dates='+start+'/'+end
-    +'&details='+det
-    +'&location='+loc;
-  window.open(url, '_blank');
+  var acc=curAcc?curAcc.e+' '+curAcc.l:'Sin asignar';
+  var mis=curMis?curMis.e+' '+curMis.l:'Sin asignar';
+  var details='Dress code: Total Black | Tu diferencial: '+acc+' | Tu mision: '+mis;
+  var title=encodeURIComponent('La noche de los 35 - Juanjo');
+  var loc=encodeURIComponent('26 de Marzo 3459 Piso 11 Barbacoa Montevideo');
+  var det=encodeURIComponent(details);
+  var url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+    +'&text='+title+'&dates=20260522T210000/20260523T020000'
+    +'&details='+det+'&location='+loc;
+  window.open(url,'_blank');
 }
+
 async function loadAdmin(){
   goTo('screenAdmin');
-  var guests=[];
-  try{
-    var keys=await window.storage.list('guest_',true);
-    for(var k of (keys.keys||[])){
-      try{var r=await window.storage.get(k,true);if(r)guests.push(JSON.parse(r.value));}catch(e){}
-    }
-  }catch(e){}
-  guests.sort(function(a,b){return a.ts>b.ts?1:-1;});
-  var si=guests.filter(function(g){return g.boliche==='Si';}).length;
-  var may=guests.filter(function(g){return g.boliche==='Puede ser';}).length;
   var html='<div class="admin-title">PANEL ADMIN</div>';
-  html+='<div class="admin-sub">// cumpleaños juanjo · 22.05.2026</div>';
-  html+='<div class="stats-row">';
-  html+='<div class="stat-card"><div class="stat-num">'+guests.length+'</div><div class="stat-lbl">Confirmados</div></div>';
-  html+='<div class="stat-card"><div class="stat-num">'+si+'</div><div class="stat-lbl">Al boliche</div></div>';
-  html+='<div class="stat-card"><div class="stat-num">'+may+'</div><div class="stat-lbl">Puede ser</div></div>';
-  html+='</div>';
-  if(!guests.length){html+='<div class="no-guests">// sin confirmaciones aún</div>';}
-  else{
-    guests.forEach(function(g){
-      var bc=g.boliche==='Si'?'badge-si':g.boliche==='No'?'badge-no':'badge-maybe';
-      var bl=g.boliche==='Si'?'✓ va al boliche':g.boliche==='No'?'✗ no sigue':'? puede ser';
-      html+='<div class="guest-card"><div class="guest-name">'+g.nombre+'</div>';
-      html+='<div class="guest-detail">Viene: <span>'+g.acompanado+'</span><br>';
-      html+='Comida: <span>'+g.comida+'</span> · Bebida: <span>'+g.bebida+'</span><br>';
-      if(g.alergia&&g.alergia!=='Ninguna')html+='Alergia: <span style="color:rgba(255,180,0,0.7);">'+g.alergia+'</span><br>';
-      html+='Confirmó: <span>'+g.ts+'</span></div>';
-      html+='<div class="boliche-badge '+bc+'">'+bl+'</div></div>';
-    });
-    html+='<button class="clear-btn" onclick="clearAll()">// borrar todas las respuestas</button>';
-  }
+  html+='<div class="admin-sub">// para ver respuestas, abrí Google Sheets</div>';
+  html+='<div style="font-family:\'Share Tech Mono\',monospace;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;line-height:2;margin-top:12px;">';
+  html+='Las confirmaciones se guardan en<br><span style="color:#ff6400;">Google Sheets</span><br>Abrí el link desde tu compu o celular:</div>';
+  html+='<div style="margin-top:16px;border:1px solid rgba(255,100,0,0.2);padding:14px;font-family:\'Share Tech Mono\',monospace;font-size:9px;color:rgba(255,100,0,0.7);letter-spacing:0.1em;word-break:break-all;">docs.google.com/spreadsheets/d/<br>1i0-ea0wvGK6yVN4dMK6TCtHcM-9tyUnn9l4URZ-AClY</div>';
   document.getElementById('adminContent').innerHTML=html;
-}
-
-async function clearAll(){
-  if(!confirm('¿Borrar todas las confirmaciones?'))return;
-  try{
-    var keys=await window.storage.list('guest_',true);
-    for(var k of (keys.keys||[])){try{await window.storage.delete(k,true);}catch(e){}}
-    loadAdmin();
-  }catch(e){}
 }
 
 var params=new URLSearchParams(window.location.search);
 if(params.get('admin')==='juanjo35'){
   document.addEventListener('DOMContentLoaded',loadAdmin);
-} else {
+}else{
   document.addEventListener('DOMContentLoaded',init);
 }
 </script>
