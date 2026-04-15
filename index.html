@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Juanjo 35</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100%;height:100dvh;overflow:hidden;background:#000;display:flex;justify-content:center;align-items:flex-start;}
+  .screen{display:none;width:100%;max-width:430px;height:100vh;height:100dvh;background:#070707;position:relative;overflow:hidden;flex-direction:column;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);}
+  .screen.active{display:flex;}
+  .screen::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0;}
+  .glow-orange{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:280px;height:180px;background:radial-gradient(ellipse,rgba(255,100,0,0.18) 0%,transparent 70%);pointer-events:none;animation:breathe 4s ease-in-out infinite;z-index:0;}
+  @keyframes breathe{0%,100%{opacity:1;transform:translateX(-50%) scale(1);}50%{opacity:0.5;transform:translateX(-50%) scale(1.1);}}
+  .side-line{position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,0.3) 20%,rgba(255,100,0,0.7) 50%,rgba(255,255,255,0.3) 80%,transparent 100%);animation:lineslide 3s ease-in-out infinite;}
+  @keyframes lineslide{0%,100%{opacity:0.5;}50%{opacity:1;}}
+  .scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(255,100,0,0.4) 40%,rgba(255,255,255,0.5) 50%,rgba(255,100,0,0.4) 60%,transparent);animation:scanmove 7s linear infinite;pointer-events:none;z-index:1;}
+  @keyframes scanmove{0%{top:0;opacity:0;}3%{opacity:1;}97%{opacity:1;}100%{top:100%;opacity:0;}}
+  .corner{position:absolute;width:14px;height:14px;z-index:3;}
+  .c-tl{top:38px;left:8px;border-top:1.5px solid rgba(255,255,255,0.3);border-left:1.5px solid rgba(255,255,255,0.3);}
+  .c-tr{top:38px;right:8px;border-top:1.5px solid rgba(255,255,255,0.3);border-right:1.5px solid rgba(255,255,255,0.3);}
+  .c-bl{bottom:8px;left:8px;border-bottom:1.5px solid rgba(255,100,0,0.5);border-left:1.5px solid rgba(255,100,0,0.5);}
+  .c-br{bottom:8px;right:8px;border-bottom:1.5px solid rgba(255,100,0,0.5);border-right:1.5px solid rgba(255,100,0,0.5);}
+  .save-band{background:#ff6400;padding:9px 0;text-align:center;position:relative;z-index:10;flex-shrink:0;}
+  .save-band-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:#000;letter-spacing:0.4em;text-transform:uppercase;font-weight:700;}
+  .inner{padding:20px 24px 28px;display:flex;flex-direction:column;flex:1;position:relative;z-index:2;}
+  @keyframes fillrise{0%{clip-path:inset(0 0 100% 0);}50%{clip-path:inset(0 0 0% 0);}100%{clip-path:inset(0 0 100% 0);}}
+  .pre-number{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;line-height:1;position:relative;display:inline-block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.1);}
+  .pre-number .fp{position:absolute;inset:0;color:#fff;-webkit-text-stroke:0;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;line-height:1;animation:fillrise 5s ease-in-out infinite;}
+  .hero-number{font-family:'Bebas Neue',sans-serif;font-size:140px;line-height:0.82;letter-spacing:-4px;position:relative;display:inline-block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.1);}
+  .hero-number .fh{position:absolute;inset:0;color:#fff;-webkit-text-stroke:0;font-family:'Bebas Neue',sans-serif;font-size:140px;line-height:0.82;letter-spacing:-4px;text-shadow:0 0 50px rgba(255,100,0,0.4);animation:fillrise 5s ease-in-out infinite;}
+  .name-line{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;line-height:1;margin-top:2px;position:relative;display:inline-block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.1);}
+  .name-line .fn{position:absolute;inset:0;color:#fff;-webkit-text-stroke:0;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;line-height:1;text-shadow:0 0 30px rgba(255,100,0,0.3);animation:fillrise 5s ease-in-out infinite;}
+  .noche-tag{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:300;color:rgba(255,255,255,0.35);letter-spacing:0.2em;text-transform:uppercase;margin-top:4px;font-style:italic;}
+  .divider{width:100%;height:1px;background:linear-gradient(to right,rgba(255,255,255,0.15),rgba(255,100,0,0.4),transparent);margin:14px 0;}
+  .info-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .info-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.6);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:3px;}
+  .info-val{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.04em;line-height:1.1;}
+  .info-val.orange{color:#ff6400;}
+  .info-tiny{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.22);letter-spacing:0.12em;margin-top:2px;}
+  .address-block{margin-bottom:10px;}
+  .address-val{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;}
+  .dresscode-inline{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .dresscode-swatch{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#0a1a0a;border:1px solid rgba(0,255,120,0.3);}
+  .dresscode-inline-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:0.15em;text-transform:uppercase;}
+  .dresscode-inline-text strong{color:rgba(255,255,255,0.8);font-size:11px;}
+  .accesorio-block{border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.02);padding:8px 12px;margin-bottom:8px;}
+  .blk-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.25);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;}
+  .blk-val{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:rgba(255,255,255,0.8);line-height:1.3;}
+  .mision-block{border:1px solid rgba(255,100,0,0.18);background:rgba(255,100,0,0.04);padding:10px 12px;margin-bottom:10px;position:relative;overflow:hidden;}
+  .mision-block::before{content:'';position:absolute;top:0;left:0;width:30%;height:1.5px;background:linear-gradient(to right,#ff6400,transparent);}
+  .mision-block::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,100,0,0.04) 50%,transparent);animation:shimmer 3s ease-in-out infinite;}
+  @keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+  .mision-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.5);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;}
+  .mision-val{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.4;position:relative;z-index:1;}
+  .code-box{border:1px solid rgba(255,100,0,0.22);background:rgba(255,100,0,0.04);padding:10px 14px;margin-bottom:10px;position:relative;overflow:hidden;}
+  .code-box::before{content:'';position:absolute;top:0;left:0;width:35%;height:1.5px;background:linear-gradient(to right,#ff6400,transparent);}
+  .code-box::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,100,0,0.05) 50%,transparent);animation:shimmer 3s ease-in-out infinite;}
+  .code-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .code-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.5);letter-spacing:0.15em;text-transform:uppercase;}
+  .code-badge{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(0,255,120,0.7);background:rgba(0,255,120,0.07);border:1px solid rgba(0,255,120,0.2);padding:2px 7px;letter-spacing:0.1em;}
+  .code-system{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:0.15em;margin-bottom:3px;position:relative;z-index:1;}
+  .code-val-row{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+  .code-val{font-family:'Share Tech Mono',monospace;font-size:28px;color:#ff6400;letter-spacing:0.4em;text-shadow:0 0 20px rgba(255,100,0,0.7);line-height:1.1;transition:filter 0.4s,opacity 0.4s;}
+  .code-val.hidden{filter:blur(8px);opacity:0.35;user-select:none;}
+  .reveal-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,100,0,0.6);letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid rgba(255,100,0,0.22);padding:4px 9px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+  .code-note{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.15);letter-spacing:0.1em;margin-top:6px;}
+  .confirm-cta{width:100%;background:transparent;border:1px solid rgba(255,100,0,0.35);padding:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,100,0,0.8);letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-top:4px;position:relative;overflow:hidden;}
+  .confirm-cta::before{content:'';position:absolute;top:0;left:0;width:25%;height:1.5px;background:linear-gradient(to right,#ff6400,transparent);}
+  .already-confirmed{border:1px solid rgba(0,255,120,0.2);background:rgba(0,255,120,0.04);padding:12px 14px;margin-top:4px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,120,0.6);letter-spacing:0.15em;text-align:center;line-height:1.8;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
+  .footer-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;}
+  .una-noche{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,100,0,0.4);letter-spacing:0.15em;text-transform:uppercase;}
+
+  /* GENDER SCREEN */
+  #screenGender{justify-content:center;align-items:center;padding:40px 32px;}
+  .gender-pretag{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,100,0,0.6);letter-spacing:0.25em;text-transform:uppercase;text-align:center;margin-bottom:4px;}
+  .gender-event{font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(255,255,255,0.8);letter-spacing:4px;text-align:center;margin-bottom:28px;}
+  .gender-question{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:2px;text-align:center;line-height:1.1;margin-bottom:8px;}
+  .gender-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.1em;text-align:center;margin-bottom:32px;line-height:1.8;}
+  .gender-hint span{color:rgba(255,100,0,0.6);}
+  .gender-options{display:flex;flex-direction:column;gap:10px;width:100%;align-items:center;}
+  .gender-btn{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,0.1);padding:14px 24px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;width:100%;max-width:280px;}
+  .gender-btn:active{border-color:rgba(255,100,0,0.6);background:rgba(255,100,0,0.07);}
+  .gbtn-dot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(255,100,0,0.4);flex-shrink:0;}
+
+  /* FORM SCREEN */
+  #screenForm .inner{padding:28px 28px 40px;overflow-y:auto;}
+  .form-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+  .back-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.08);padding:5px 10px;cursor:pointer;flex-shrink:0;}
+  .form-screen-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:3px;}
+  .form-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);letter-spacing:0.12em;margin-bottom:20px;line-height:1.7;}
+  .form-group{margin-bottom:14px;}
+  .form-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.5);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:6px;display:block;}
+  .form-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:10px 12px;font-family:'Rajdhani',sans-serif;font-size:15px;color:#fff;outline:none;transition:border-color 0.2s;border-radius:0;}
+  .form-input:focus{border-color:rgba(255,100,0,0.4);}
+  .form-input::placeholder{color:rgba(255,255,255,0.18);}
+  .radio-group{display:flex;gap:7px;flex-wrap:wrap;}
+  .radio-opt input{display:none;}
+  .radio-pill{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.1);padding:6px 12px;cursor:pointer;display:block;transition:all 0.15s;}
+  .radio-opt input:checked+.radio-pill{border-color:rgba(255,100,0,0.6);color:#ff6400;background:rgba(255,100,0,0.07);}
+  .acomp-extra{display:none;margin-top:8px;}
+  .acomp-extra.visible{display:block;}
+  .submit-btn{width:100%;background:#ff6400;border:none;padding:15px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#000;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;cursor:pointer;margin-top:8px;}
+  .submit-btn:active{opacity:0.85;}
+
+  /* SUCCESS SCREEN */
+  #screenSuccess{justify-content:center;align-items:center;padding:40px 32px;text-align:center;}
+  .conf-emoji{font-size:40px;margin-bottom:14px;}
+  .conf-title{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#ff6400;letter-spacing:4px;margin-bottom:6px;}
+  .conf-line{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:0.13em;line-height:2;margin-bottom:20px;}
+  .conf-block{border:1px solid rgba(255,100,0,0.2);background:rgba(255,100,0,0.04);padding:13px 16px;margin-bottom:10px;text-align:left;width:100%;position:relative;}
+  .conf-block::before{content:'';position:absolute;top:0;left:0;width:25%;height:1.5px;background:linear-gradient(to right,#ff6400,transparent);}
+  .conf-block-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,100,0,0.5);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;}
+  .conf-block-val{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3;}
+  .conf-back{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.08);padding:10px 20px;cursor:pointer;margin-top:10px;}
+
+  /* ADMIN */
+  #screenAdmin .inner{padding:24px 20px 40px;}
+  .admin-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#ff6400;letter-spacing:4px;margin-bottom:2px;}
+  .admin-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;margin-bottom:18px;}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
+  .stat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:12px 8px;text-align:center;}
+  .stat-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#ff6400;line-height:1;}
+  .stat-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;margin-top:3px;}
+  .guest-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:12px 14px;margin-bottom:8px;}
+  .guest-name{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:5px;}
+  .guest-detail{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,0.28);letter-spacing:0.08em;line-height:1.9;}
+  .guest-detail span{color:rgba(255,255,255,0.6);}
+  .boliche-badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.08em;padding:2px 8px;margin-top:5px;}
+  .badge-si{background:rgba(0,255,120,0.07);border:1px solid rgba(0,255,120,0.2);color:rgba(0,255,120,0.7);}
+  .badge-no{background:rgba(255,60,60,0.07);border:1px solid rgba(255,60,60,0.18);color:rgba(255,80,80,0.6);}
+  .badge-maybe{background:rgba(255,200,0,0.07);border:1px solid rgba(255,200,0,0.18);color:rgba(255,200,0,0.6);}
+  .clear-btn{width:100%;background:transparent;border:1px solid rgba(255,60,60,0.18);padding:10px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,60,60,0.4);letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;margin-top:14px;}
+
+  .cal-btn{width:100%;background:transparent;border:1px solid rgba(255,255,255,0.12);padding:13px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;}
+  .cal-btn:active{border-color:rgba(255,255,255,0.3);color:#fff;}
+  .cal-icon{font-size:14px;}
+  .no-guests{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;text-align:center;padding:28px 0;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: GENDER -->
+<!-- Netlify Forms detection -->
+<form name="confirmacion" data-netlify="true" netlify netlify-honeypot="bot-field" action="/" method="POST" hidden>
+  <input type="text" name="nombre">
+  <input type="text" name="acompanado">
+  <input type="text" name="acomp_nombre">
+  <input type="text" name="comida">
+  <input type="text" name="bebida">
+  <input type="text" name="alergia">
+  <input type="text" name="boliche">
+  <input type="text" name="accesorio">
+  <input type="text" name="mision">
+</form>
+
+<div class="screen active" id="screenGender">
+  <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
+  <div class="gender-pretag">// cumpleaños de juanjo · 22.05.2026</div>
+  <div class="gender-event">La noche de los 35</div>
+  <div class="gender-question">¿Cómo te<br>identificás?</div>
+  <div class="gender-hint">Tu respuesta determinará tu<br><span>accesorio único y tu misión</span><br>para esta noche</div>
+  <div class="gender-options">
+    <button class="gender-btn" onclick="elegir('m')"><div class="gbtn-dot"></div>Hombre</button>
+    <button class="gender-btn" onclick="elegir('f')"><div class="gbtn-dot"></div>Mujer</button>
+    <button class="gender-btn" onclick="elegir('x')"><div class="gbtn-dot"></div>Prefiero no especificar</button>
+  </div>
+</div>
+
+<!-- SCREEN 2: FLYER -->
+<div class="screen" id="screenFlyer" style="overflow-y:auto;">
+  <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
+  <div class="corner c-tl"></div><div class="corner c-tr"></div>
+  <div class="corner c-bl"></div><div class="corner c-br"></div>
+  <div class="save-band"><span class="save-band-text">✦ &nbsp;Save the Date &nbsp;· &nbsp;22.05.2026 &nbsp;✦</span></div>
+  <div class="inner">
+    <div>
+      <div class="pre-number">LOS<span class="fp" aria-hidden="true">LOS</span></div>
+      <div style="position:relative;display:inline-block;">
+        <span class="hero-number">35<span class="fh" aria-hidden="true">35</span></span>
+      </div>
+      <div class="name-line">Bien vividos<span class="fn" aria-hidden="true">Bien vividos</span></div>
+      <div class="noche-tag">la fiesta que se esperaba</div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="info-row">
+        <div>
+          <div class="info-lbl">Fecha</div>
+          <div class="info-val orange">22 MAY 2026</div>
+          <div class="info-tiny">cumpleaños 20.05</div>
+          <div class="info-tiny">festejamos el 22</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="info-lbl">Horario</div>
+          <div class="info-val" style="white-space:nowrap;">21:00 — 02:00</div>
+          <div class="info-tiny" style="text-align:right;">sigue en boliche</div>
+        </div>
+      </div>
+      <div class="address-block">
+        <div class="info-lbl">Ubicación</div>
+        <div class="address-val">26 de Marzo 3459 — Piso 11<br>Barbacoa · Montevideo</div>
+      </div>
+      <div class="dresscode-inline">
+        <div class="dresscode-swatch">
+          <svg width="10" height="8" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="#00ff78" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="dresscode-inline-text"><strong>Total Black</strong> &nbsp;·&nbsp; dress code obligatorio</div>
+      </div>
+      <div class="accesorio-block">
+        <div class="blk-lbl">// tu diferencial único esta noche</div>
+        <div class="blk-val"><span id="aE"></span> <span id="aT"></span></div>
+      </div>
+      <div class="mision-block">
+        <div class="mision-lbl">// tu misión con juanjo esta noche</div>
+        <div class="mision-val"><span id="mE"></span> <span id="mT"></span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="code-box">
+        <div class="code-header">
+          <div class="code-lbl">Código portero · válido solo 22.05</div>
+          <div class="code-badge">FOXSYS</div>
+        </div>
+        <div class="code-system">PIN</div>
+        <div class="code-val-row">
+          <div class="code-val hidden" id="pin">50905</div>
+          <button class="reveal-btn" id="revealBtn" onclick="togglePin()">▶ revelar</button>
+        </div>
+        <div class="code-note">// no compartir · acceso único esta noche</div>
+      </div>
+      <div id="confirmCTA">
+        <button class="confirm-cta" onclick="goTo('screenForm')">✦ &nbsp;Confirmar asistencia</button>
+      </div>
+      <div id="alreadyConfirmed" class="already-confirmed" style="display:none;">
+        ✓ &nbsp;ya confirmaste tu asistencia<br>
+        <span style="color:rgba(255,255,255,0.2);font-size:8px;">te esperamos el 22 · 21:00 hs</span>
+      </div>
+    </div>
+    <div class="footer-row">
+      <div class="footer-tag">JUANJO · 22.05.26</div>
+      <div class="una-noche">LA NOCHE DE LOS 35</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3: FORM -->
+<div class="screen" id="screenForm" style="overflow-y:auto;">
+  <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
+  <div class="inner">
+    <div class="form-header">
+      <button class="back-btn" onclick="goTo('screenFlyer')">← volver</button>
+      <div class="form-screen-title">CONFIRMÁ</div>
+    </div>
+    <div class="form-sub">// completá tus datos · 22.05.2026 · barbacoa piso 11</div>
+    <div class="form-group">
+      <label class="form-lbl">Nombre completo</label>
+      <input class="form-input" id="fNombre" type="text" placeholder="Tu nombre">
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">¿Venís solo/a o acompañado/a?</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="acomp" value="Solo/a" onchange="toggleAcomp(false)"><span class="radio-pill">Solo/a</span></label>
+        <label class="radio-opt"><input type="radio" name="acomp" value="Acompañado/a" onchange="toggleAcomp(true)"><span class="radio-pill">Acompañado/a</span></label>
+      </div>
+      <div class="acomp-extra" id="acompExtra">
+        <input class="form-input" id="fAcompNombre" type="text" placeholder="Nombre de tu acompañante">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Preferencia de comida</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="comida" value="Todo"><span class="radio-pill">Todo</span></label>
+        <label class="radio-opt"><input type="radio" name="comida" value="Vegetariano"><span class="radio-pill">Vegetariano</span></label>
+        <label class="radio-opt"><input type="radio" name="comida" value="Vegano"><span class="radio-pill">Vegano</span></label>
+        <label class="radio-opt"><input type="radio" name="comida" value="Sin TACC"><span class="radio-pill">Sin TACC</span></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Bebida favorita</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="bebida" value="Cerveza"><span class="radio-pill">Cerveza</span></label>
+        <label class="radio-opt"><input type="radio" name="bebida" value="Vino"><span class="radio-pill">Vino</span></label>
+        <label class="radio-opt"><input type="radio" name="bebida" value="Fernet"><span class="radio-pill">Fernet</span></label>
+        <label class="radio-opt"><input type="radio" name="bebida" value="Spirits"><span class="radio-pill">Spirits</span></label>
+        <label class="radio-opt"><input type="radio" name="bebida" value="Sin alcohol"><span class="radio-pill">Sin alcohol</span></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Alergias o restricciones alimentarias</label>
+      <input class="form-input" id="fAlergia" type="text" placeholder="Ninguna / especificá">
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">¿Seguís al boliche después?</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="radio" name="boliche" value="Si"><span class="radio-pill">Sí</span></label>
+        <label class="radio-opt"><input type="radio" name="boliche" value="No"><span class="radio-pill">No</span></label>
+        <label class="radio-opt"><input type="radio" name="boliche" value="Puede ser"><span class="radio-pill">Puede ser</span></label>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="confirmar()">✦ &nbsp;Confirmar</button>
+  </div>
+</div>
+
+<!-- SCREEN 4: SUCCESS -->
+<div class="screen" id="screenSuccess">
+  <div class="glow-orange"></div><div class="side-line"></div><div class="scan"></div>
+  <div class="conf-emoji">🎉</div>
+  <div class="conf-title">¡LISTO!</div>
+  <div class="conf-line" id="confLine">
+    Te espero el viernes 22 de mayo<br>
+    26 de Marzo 3459 — Piso 11<br>
+    Barbacoa · Montevideo<br>
+    21:00 hs · Total Black
+  </div>
+  <div class="conf-block">
+    <div class="conf-block-lbl">// tu diferencial esta noche</div>
+    <div class="conf-block-val" id="confAccVal"></div>
+  </div>
+  <div class="conf-block" style="border-color:rgba(255,100,0,0.2);">
+    <div class="conf-block-lbl" style="color:rgba(255,100,0,0.5);">// tu misión con juanjo</div>
+    <div class="conf-block-val" id="confMisVal"></div>
+  </div>
+  <button class="cal-btn" id="calBtn" onclick="addToCalendar()"><span class="cal-icon">📅</span> Agregar a Google Calendar</button>
+  <button class="conf-back" onclick="goTo('screenFlyer')">← volver al flyer</button>
+</div>
+
+<!-- SCREEN 5: ADMIN -->
+<div class="screen" id="screenAdmin" style="overflow-y:auto;">
+  <div class="glow-orange"></div><div class="side-line"></div>
+  <div class="inner" id="adminContent"></div>
+</div>
+
+<script>
+var pools={
+  u:[{e:'🕶️',l:'Lentes de sol — de noche, sin excusas'},{e:'🧣',l:'Pañuelo en el cuello'},{e:'⛓️',l:'Cadena o collar llamativo'},{e:'🎭',l:'Antifaz'},{e:'🧤',l:'Guantes negros'},{e:'🪖',l:'Boina'},{e:'💋',l:'Lunar postizo exagerado'},{e:'🌈',l:'Peluca de color'},{e:'🩱',l:'Algo de cuero o símil cuero'},{e:'👟',l:'Zapatillas blancas — el único blanco permitido'},{e:'🌹',l:'Una rosa (como Leo Mattioli)'},{e:'📿',l:'Cadena larga visible'},{e:'🌙',l:'Accesorio con luna o estrella'}],
+  m:[{e:'🎩',l:'Sombrero de ala ancha'},{e:'🧢',l:'Gorra negra hacia atrás'},{e:'💍',l:'Un accesorio dorado visible'},{e:'🪩',l:'Algo con brillo o lentejuelas'},{e:'💈',l:'Gel — pelo peinado para atrás'},{e:'👔',l:'Corbata negra sobre lo que sea'}],
+  f:[{e:'💅',l:'Uñas de color'},{e:'💎',l:'Piedras decorativas en la cara'},{e:'🌟',l:'Iluminador en pómulos exagerado'},{e:'🖤',l:'Peluca negra larga'},{e:'👑',l:'Tiara o corona discreta'},{e:'🧦',l:'Medias de red'},{e:'✨',l:'Glitter en la cara'},{e:'🥾',l:'Botas altas'}]
+};
+var mis=[{e:'🥂',l:'Hacer un brindis uno a uno con Juanjo'},{e:'🕺',l:'Sacarle a bailar al menos una canción'},{e:'🤗',l:'Darle el abrazo más largo de la noche'},{e:'🎤',l:'Dedicarle una canción en voz alta frente a todos'},{e:'🤫',l:'Hacerle una broma o sorpresa durante la noche'},{e:'👀',l:'Capturar el mejor momento de la noche en video'},{e:'🎯',l:'Adivinar cuál es su canción favorita de la noche'},{e:'🤙',l:'Hacer una promesa para el próximo año juntos'},{e:'🎰',l:'Apostar algo ridículo con él durante la noche'},{e:'🍻',l:'Tomarse un shot juntos'},{e:'🍻',l:'Tomarse 2 shots juntos'},{e:'🍻',l:'Tomarse 3 shots juntos'},{e:'📞',l:'Llamar a alguien que no pudo venir y ponerlo en altavoz con Juanjo'},{e:'🌙',l:'Ser el que le avisa cuando es hora de irse al boliche'},{e:'🎶',l:'Pedirle al DJ una canción dedicada a él sin que lo sepa'}];
+
+var curAcc=null, curMis=null;
+function rand(a){return a[Math.floor(Math.random()*a.length)];}
+
+// Device fingerprint — combina user agent + screen + timezone para ID estable
+function getDeviceId(){
+  var raw=[navigator.userAgent,screen.width,screen.height,screen.colorDepth,Intl.DateTimeFormat().resolvedOptions().timeZone,navigator.language].join('|');
+  var h=0;
+  for(var i=0;i<raw.length;i++){h=Math.imul(31,h)+raw.charCodeAt(i)|0;}
+  return 'dev_'+(h>>>0).toString(16);
+}
+var DEVICE_ID=getDeviceId();
+
+function lsGet(key){try{var v=localStorage.getItem(key);return v?JSON.parse(v):null;}catch(e){return null;}}
+function lsSet(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleAcomp(show){
+  document.getElementById('acompExtra').classList.toggle('visible',show);
+  if(!show)document.getElementById('fAcompNombre').value='';
+}
+
+function init(){
+  var saved=lsGet('juanjo35_device');
+  if(saved && saved.acc && saved.mis){
+    curAcc=saved.acc; curMis=saved.mis;
+    document.getElementById('aE').textContent=curAcc.e;
+    document.getElementById('aT').textContent=curAcc.l;
+    document.getElementById('mE').textContent=curMis.e;
+    document.getElementById('mT').textContent=curMis.l;
+    if(saved.confirmed){
+      document.getElementById('confirmCTA').style.display='none';
+      document.getElementById('alreadyConfirmed').style.display='block';
+    }
+    goTo('screenFlyer');
+    return;
+  }
+  goTo('screenGender');
+}
+
+function elegir(g){
+  var pa=pools.u.concat(g==='x'?[]:(pools[g]||[]));
+  curAcc=rand(pa); curMis=rand(mis);
+  document.getElementById('aE').textContent=curAcc.e;
+  document.getElementById('aT').textContent=curAcc.l;
+  document.getElementById('mE').textContent=curMis.e;
+  document.getElementById('mT').textContent=curMis.l;
+  lsSet('juanjo35_device',{acc:curAcc,mis:curMis,confirmed:false});
+  goTo('screenFlyer');
+}
+
+var rev=false;
+function togglePin(){
+  rev=!rev;
+  document.getElementById('pin').classList.toggle('hidden',!rev);
+  document.getElementById('revealBtn').textContent=rev?'▼ ocultar':'▶ revelar';
+}
+
+function getVal(name){
+  var el=document.querySelector('input[name="'+name+'"]:checked');
+  return el?el.value:'—';
+}
+
+async function confirmar(){
+  var nombre=document.getElementById('fNombre').value.trim();
+  if(!nombre){document.getElementById('fNombre').focus();return;}
+  var acomp=getVal('acomp');
+  var acompNombre='';
+  if(acomp==='Acompañado/a')acompNombre=document.getElementById('fAcompNombre').value.trim();
+  var entry={
+    nombre:nombre,
+    acompanado:acomp+(acompNombre?' ('+acompNombre+')':''),
+    comida:getVal('comida'),
+    bebida:getVal('bebida'),
+    alergia:document.getElementById('fAlergia').value.trim()||'Ninguna',
+    boliche:getVal('boliche'),
+    accesorio:curAcc?curAcc.e+' '+curAcc.l:'—',
+    mision:curMis?curMis.e+' '+curMis.l:'—',
+    ts:new Date().toLocaleString('es-UY',{timeZone:'America/Montevideo'})
+  };
+
+  // Enviar a Netlify Forms via fetch
+  try{
+    var formData = new FormData();
+    formData.append('form-name','confirmacion');
+    Object.keys(entry).forEach(function(k){ formData.append(k, entry[k]); });
+    await fetch('/',{method:'POST', body: formData});
+  }catch(e){ console.log('Netlify Forms error:',e); }
+
+  // Guardar estado del dispositivo localmente
+  lsSet('juanjo35_device',{acc:curAcc,mis:curMis,confirmed:true});
+
+  // Actualizar UI
+  document.getElementById('confirmCTA').style.display='none';
+  document.getElementById('alreadyConfirmed').style.display='block';
+  if(curAcc)document.getElementById('confAccVal').textContent=curAcc.e+' '+curAcc.l;
+  if(curMis)document.getElementById('confMisVal').textContent=curMis.e+' '+curMis.l;
+  goTo('screenSuccess');
+}
+
+
+function addToCalendar(){
+  var acc = curAcc ? curAcc.e+' '+curAcc.l : 'Sin asignar';
+  var mis = curMis ? curMis.e+' '+curMis.l : 'Sin asignar';
+  var details = 'Dress code: Total Black | Tu diferencial: '+acc+' | Tu mision: '+mis;
+  var start = '20260522T210000';
+  var end   = '20260523T020000';
+  var title = encodeURIComponent('La noche de los 35 - Juanjo');
+  var loc   = encodeURIComponent('26 de Marzo 3459 Piso 11 Barbacoa Montevideo');
+  var det   = encodeURIComponent(details);
+  var url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    +'&text='+title
+    +'&dates='+start+'/'+end
+    +'&details='+det
+    +'&location='+loc;
+  window.open(url, '_blank');
+}
+async function loadAdmin(){
+  goTo('screenAdmin');
+  var guests=[];
+  try{
+    var keys=await window.storage.list('guest_',true);
+    for(var k of (keys.keys||[])){
+      try{var r=await window.storage.get(k,true);if(r)guests.push(JSON.parse(r.value));}catch(e){}
+    }
+  }catch(e){}
+  guests.sort(function(a,b){return a.ts>b.ts?1:-1;});
+  var si=guests.filter(function(g){return g.boliche==='Si';}).length;
+  var may=guests.filter(function(g){return g.boliche==='Puede ser';}).length;
+  var html='<div class="admin-title">PANEL ADMIN</div>';
+  html+='<div class="admin-sub">// cumpleaños juanjo · 22.05.2026</div>';
+  html+='<div class="stats-row">';
+  html+='<div class="stat-card"><div class="stat-num">'+guests.length+'</div><div class="stat-lbl">Confirmados</div></div>';
+  html+='<div class="stat-card"><div class="stat-num">'+si+'</div><div class="stat-lbl">Al boliche</div></div>';
+  html+='<div class="stat-card"><div class="stat-num">'+may+'</div><div class="stat-lbl">Puede ser</div></div>';
+  html+='</div>';
+  if(!guests.length){html+='<div class="no-guests">// sin confirmaciones aún</div>';}
+  else{
+    guests.forEach(function(g){
+      var bc=g.boliche==='Si'?'badge-si':g.boliche==='No'?'badge-no':'badge-maybe';
+      var bl=g.boliche==='Si'?'✓ va al boliche':g.boliche==='No'?'✗ no sigue':'? puede ser';
+      html+='<div class="guest-card"><div class="guest-name">'+g.nombre+'</div>';
+      html+='<div class="guest-detail">Viene: <span>'+g.acompanado+'</span><br>';
+      html+='Comida: <span>'+g.comida+'</span> · Bebida: <span>'+g.bebida+'</span><br>';
+      if(g.alergia&&g.alergia!=='Ninguna')html+='Alergia: <span style="color:rgba(255,180,0,0.7);">'+g.alergia+'</span><br>';
+      html+='Confirmó: <span>'+g.ts+'</span></div>';
+      html+='<div class="boliche-badge '+bc+'">'+bl+'</div></div>';
+    });
+    html+='<button class="clear-btn" onclick="clearAll()">// borrar todas las respuestas</button>';
+  }
+  document.getElementById('adminContent').innerHTML=html;
+}
+
+async function clearAll(){
+  if(!confirm('¿Borrar todas las confirmaciones?'))return;
+  try{
+    var keys=await window.storage.list('guest_',true);
+    for(var k of (keys.keys||[])){try{await window.storage.delete(k,true);}catch(e){}}
+    loadAdmin();
+  }catch(e){}
+}
+
+var params=new URLSearchParams(window.location.search);
+if(params.get('admin')==='juanjo35'){
+  document.addEventListener('DOMContentLoaded',loadAdmin);
+} else {
+  document.addEventListener('DOMContentLoaded',init);
+}
+</script>
+</body>
+</html>
