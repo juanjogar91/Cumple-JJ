@@ -434,13 +434,15 @@ async function confirmar(){
     ts:new Date().toLocaleString('es-UY',{timeZone:'America/Montevideo'})
   };
 
-  // Enviar a Netlify Forms via fetch
+  // Enviar a Google Sheets via Apps Script
   try{
-    var formData = new FormData();
-    formData.append('form-name','confirmacion');
-    Object.keys(entry).forEach(function(k){ formData.append(k, entry[k]); });
-    await fetch('/',{method:'POST', body: formData});
-  }catch(e){ console.log('Netlify Forms error:',e); }
+    await fetch('https://script.google.com/macros/s/AKfycbwVc-1LHyzDlKG7DVAdURFhCRrKI9bTC1RrGW2F5VP-Kh9C9h_8lfVMLxDdxMhaFSXr/exec',{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(entry)
+    });
+  }catch(e){ console.log('Sheets error:',e); }
 
   // Guardar estado del dispositivo localmente
   lsSet('juanjo35_device',{acc:curAcc,mis:curMis,confirmed:true});
